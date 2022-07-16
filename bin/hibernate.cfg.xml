@@ -20,7 +20,8 @@
         <!--Settings (pool)-->
         <property name="connection.pool_size">1</property>
 
-        <!-- dialect SQL -->
+        <!-- dialect SQL (to know what is the language needed
+        to use to talk to database)-->
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
         <!-- show sql query -->
