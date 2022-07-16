@@ -1,9 +1,12 @@
 package com.springdata.hibernate;
 
+import java.util.Date;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.springdata.hibernate.model.Address;
 import com.springdata.hibernate.model.Client;
 
 public class MainApplication {
@@ -15,7 +18,13 @@ public class MainApplication {
 				.addAnnotatedClass(Client.class)
 				.buildSessionFactory();
 		
-		////////////CRUD Operations/////////
+////////////CRUD Operations/////////
+		crudOperations(factory);
+	
+	}
+
+	private static void crudOperations(SessionFactory factory) {
+		// TODO Auto-generated method stub
 		
 		//Create
 		saveObjects(factory);
@@ -26,11 +35,11 @@ public class MainApplication {
 		
 		//Update
 		Client newClient = new Client("Ali","Ali Ahmed", 30, "aahmed@aaa.com");
-		updateObject(factory, newClient, 4);
+		updateObject(factory, newClient, 3);
 		
 		//delete
-		deleteObject(factory, 1);
-
+		//deleteObject(factory, 1);
+		
 	}
 
 	private static void updateObject(SessionFactory factory, Client newClient, long id) {
@@ -99,7 +108,14 @@ public class MainApplication {
 		Client client2 = new Client("nabdelmogeth","Noha Mostafa", 24, "nabdelmogeth@ntgclarity.com");
 		Client client3 = new Client("namr","Noha Ezzat", 24, "namr@ntgclarity.com");
 
+		Address addr1 = new Address();
+		addr1.setCity("Cairo");
+		addr1.setStreet("Haram");
+		addr1.setState("Giza");
+		addr1.setPincode("54132");
 		
+		client1.setAddress(addr1);
+		client1.setJoinedDate(new Date());
 		try {
 			session.beginTransaction();
 			session.save(client1);
