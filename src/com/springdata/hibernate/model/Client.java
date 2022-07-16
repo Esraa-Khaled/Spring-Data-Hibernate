@@ -2,6 +2,8 @@ package com.springdata.hibernate.model;
 
 import java.util.Date;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -18,11 +20,18 @@ import javax.persistence.Transient;
 @Table(name="client")
 public class Client {
 	
-	// GeneratedValue strategy diffrentiate from each database type
-	// AUTO(default) >> will let hibernate take the best descision according to DB type
-	// IDENTITY >> will increment the last id
-	// SEQUANCE >> hibernate will take next id value from generated sequence
-	// TABLE >> hibernate will create table and fetch next id from it
+	/*
+	   Entity ID can be also embeeded object but in this case
+	   we will not use @Id & @GeneratedValue annotations
+	   we will use @EmbeddedId annotation
+	*/
+	/*
+	 	- GeneratedValue strategy diffrentiate from each database type
+		- AUTO(default) >> will let hibernate take the best descision according to DB type
+		- IDENTITY >> will increment the last id
+		- SEQUANCE >> hibernate will take next id value from generated sequence
+		- TABLE >> hibernate will create table and fetch next id from it
+	 */
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY) //for Auto Increment
 	@Column(name="client_id")
@@ -53,9 +62,23 @@ public class Client {
 	@Transient // tell hibernate to escape this column
 	private String sharedInfo;
 	
-	@Embedded //not mandatory if this class marked with @Embedable
-	private Address address;
+	/* now we have more than embedded objects from the same class
+	 * we need to override the default column names for each object 
+	 * inorder to enable hibernate to create diffrent column names,
+	 * so we will use @AttributeOverride for one attribute and 
+	 *  @AttributeOverrides for more tan one */
 	
+	@Embedded //(not mandatory) if this class marked with @Embedable
+	//@AttributeOverride(name="street", column=@Column(name="OME_STREET_NAME"))
+	@AttributeOverrides( {
+			@AttributeOverride (name="street", column=@Column(name="HOME_STREET_NAME")),
+			@AttributeOverride (name="city", column=@Column(name="HOME_CITY_NAME")),
+			@AttributeOverride (name="state", column=@Column(name="HOME_STATE_NAME")),
+			@AttributeOverride (name="pincode", column=@Column(name="HOME_PIN_CODE")),})
+	private Address homeAddress;
+	
+	@Embedded
+	private Address officeAddress;
 	
 	public Client() {}
 	
@@ -131,12 +154,20 @@ public class Client {
 		this.sharedInfo = sharedInfo;
 	}
 
-	public Address getAddress() {
-		return address;
+	public Address getHomeAddress() {
+		return homeAddress;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
+	}
+
+	public Address getOfficeAddress() {
+		return officeAddress;
+	}
+
+	public void setOfficeAddress(Address officeAddress) {
+		this.officeAddress = officeAddress;
 	}
 
 }

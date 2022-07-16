@@ -108,13 +108,12 @@ public class MainApplication {
 		Client client2 = new Client("nabdelmogeth","Noha Mostafa", 24, "nabdelmogeth@ntgclarity.com");
 		Client client3 = new Client("namr","Noha Ezzat", 24, "namr@ntgclarity.com");
 
-		Address addr1 = new Address();
-		addr1.setCity("Cairo");
-		addr1.setStreet("Haram");
-		addr1.setState("Giza");
-		addr1.setPincode("54132");
+		Address officeAddress = new Address("Haram", "Cairo", "Giza", "54132");
+		Address homeAddress = new Address("Haram2", "Cairo2", "Giza2", "11111");
+
 		
-		client1.setAddress(addr1);
+		client1.setOfficeAddress(officeAddress);
+		client1.setHomeAddress(homeAddress);
 		client1.setJoinedDate(new Date());
 		try {
 			session.beginTransaction();

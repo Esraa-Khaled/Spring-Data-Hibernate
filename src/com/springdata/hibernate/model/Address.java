@@ -1,15 +1,28 @@
 package com.springdata.hibernate.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-@Embeddable //tells hibernate this object needs to be embedded inside another class
+@Embeddable //tells hibernate that this object needs to be embedded inside another Table(Entity) class
 public class Address {
 	
+	@Column(name="STREET_NAME")
 	private String street;
-	private String City;
+	@Column(name="CITY_NAME")
+	private String city;
+	@Column(name="STATE_NAME")
 	private String state;
+	@Column(name="PIN_CODE")
 	private String pincode;
 	
+	public Address() {}
+	public Address(String street, String city, String state, String pincode) {
+		super();
+		this.street = street;
+		this.city = city;
+		this.state = state;
+		this.pincode = pincode;
+	}
 	public String getStreet() {
 		return street;
 	}
@@ -17,10 +30,10 @@ public class Address {
 		this.street = street;
 	}
 	public String getCity() {
-		return City;
+		return city;
 	}
 	public void setCity(String city) {
-		City = city;
+		this.city = city;
 	}
 	public String getState() {
 		return state;

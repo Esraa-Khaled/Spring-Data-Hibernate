@@ -1,0 +1,29 @@
+1- @Column(name="....") 
+	 can be added on field or setter method
+
+2- Using @Lob >> hibernate will decide if its Clob or BLob based on type of variable
+ 	String >>(CLOB) or byte[] (BLOB)
+
+3- @Embeddable :: added above class
+	tells hibernate that this object needs to be embedded inside another Table(Entity) class
+
+4- @Embedded :: added above object field
+	(not mandatory) if this class marked with @Embedable
+	
+5- @AttributeOverride or @AttributeOverrides :: added above object field
+	IF we have more than embedded objects from the same class
+	we need to override the default column names for each object 
+	inorder to enable hibernate to create diffrent column names,
+	so we will use @AttributeOverride for one attribute and 
+	@AttributeOverrides for more than one
+	
+	ex:
+		@AttributeOverrides( {
+			@AttributeOverride (name="street", column=@Column(name="HOME_STREET_NAME")),
+			@AttributeOverride (name="city", column=@Column(name="HOME_CITY_NAME")),
+			@AttributeOverride (name="state", column=@Column(name="HOME_STATE_NAME")),
+			@AttributeOverride (name="pincode", column=@Column(name="HOME_PIN_CODE")),})
+
+6- Entity ID can be also embeeded object but in this case
+	we will not use @Id & @GeneratedValue annotations
+	we will use @EmbeddedId annotation
